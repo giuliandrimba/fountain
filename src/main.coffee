@@ -36,9 +36,15 @@ class Main
 
 			if child.length
 				for file in child
-					fs.writeFileSync "#{relative_path}/#{file}"
+
+					type = typeof file
+
+					if type is "object"
+						@_get_children file, relative_path
+					else
+						fs.writeFileSync "#{relative_path}/#{file}", ""
 			else
-				@_get_children child, relative_path unless child.length
+				@_get_children child, relative_path
 
 
 new Main
