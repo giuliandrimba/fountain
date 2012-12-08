@@ -11,9 +11,9 @@ toast 'src'
 	# bare: false
 	# packaging: true
 	# expose: ''
-	# minify: true
+	minify: false
 
 	# => HTTPFOLDER (optional), RELEASE / DEBUG (required)
 	httpfolder: ''
-	release: 'lib/skeleton.js'
-	debug: 'lib/skeleton-debug.js'
+	release: 'lib/fountain.js'
+	debug: 'lib/fountain-debug.js'

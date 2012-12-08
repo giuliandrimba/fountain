@@ -1,23 +1,23 @@
 
 {
   "author"         : "Giulian Drimba <giuliandrimba@gmail.com>",
-  "name"           : "skeleton",
+  "name"           : "fountain",
   "description"    : "",
-  "version"        : "0.0.2",
+  "version"        : "0.1.0",
 
   "repository"     : {
     "type"           : "git",
-    "url"            : "http://github.com/giuliandrimba/skeleton"
+    "url"            : "http://github.com/giuliandrimba/fountain"
   },
 
-  "main"           : "./lib/skeleton",
+  "main"           : "./lib/fountain",
   
   "directories"    : {
     "lib"            : "./lib/"
   },
 
   "bin"            : {
-    "toaster"        : "./bin/skeleton"
+    "fountain"        : "./bin/fountain"
   },
 
   "engines"        : {
@@ -26,6 +26,7 @@
   
   "dependencies"   : {
     "js-yaml"      : "1.0.x",
-    "wrench"       : "1.4.x"
+    "wrench"       : "1.4.x",
+    "optimist"     : "0.3.x"
   }
 }

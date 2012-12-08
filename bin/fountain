@@ -1,0 +1,34 @@
+#!/usr/bin/env node
+var path = require("path");
+var fs = require("fs");
+var argv = require('optimist').argv;
+
+var lib = path.join(path.dirname(fs.realpathSync(__filename)), '../lib');
+var Fountain = require(lib + '/fountain')
+var fountain = new Fountain;
+
+parseArgvs();
+
+function parseArgvs()
+{
+	executeCommand(argv._[0]);
+}
+
+function executeCommand(command)
+{
+	switch(command)
+	{
+		case "build":
+			fountain.build(argv._[1])
+			break;
+		case "save":
+			fountain.save(argv._[1])
+			break;
+		case "load":
+			fountain.load(argv._[1])
+			break;
+		case "remove":
+			fountain.remove(argv._[1])
+			break;
+	}
+}
