@@ -1,20 +1,53 @@
 #!/usr/bin/env node
+
 var path = require("path");
 var fs = require("fs");
-var argv = require('optimist').argv;
+var colors = require("colors")
+
+var helpMessage = "\nScaffold system based on a config file".green.bold;
+helpMessage += "\n\nUsage:".green;
+helpMessage += "\n  fountain build (-b)".yellow+": Scaffold a project using the template file (fountain.yml);";
+helpMessage += "\n  fountain save (-s) [name]".yellow+": Save the template file for further use;";
+helpMessage += "\n  fountain load (-l) [name]".yellow+": Load the template file by name, and build it;";
+helpMessage += "\n  fountain remove (-r) [name]".yellow+": Remove the template file by name;";
+helpMessage += "\n  fountain version (-v)".yellow+": Show version;";
+helpMessage += "\n  fountain help (-h)".yellow+": Show help;";
+
+helpMessage += "\n\nTemplate file example:".green;
+helpMessage += "\n  app:".cyan;
+helpMessage += "\n    - js:".cyan;
+helpMessage += "\n      - app.js".cyan;
+helpMessage += "\n    - css:".cyan;
+helpMessage += "\n      - app.css".cyan;
+helpMessage += "\n\nExample using this template:".green;
+helpMessage += "\n  fountain load test".cyan;
+helpMessage += "\n\nMore doc at: https://github.com/giuliandrimba/fountain".green;
+
+var argv = require('optimist')
+.usage(helpMessage)
+.argv;
 
 var lib = path.join(path.dirname(fs.realpathSync(__filename)), '../lib');
 var Fountain = require(lib + '/fountain')
 var fountain = new Fountain;
+var keys = {b:"build",v:"version",h:"help",s:"save",l:"load",r:"remove"};
 
 parseArgvs();
 
 function parseArgvs()
 {
-	executeCommand(argv._[0]);
+	if(!hasKeys())
+	{
+		require('optimist').showHelp()
+	}
+	else
+	{
+		verboseCommands(argv._[0]);
+		commands()		
+	}
 }
 
-function executeCommand(command)
+function verboseCommands(command)
 {
 	switch(command)
 	{
@@ -30,5 +63,38 @@ function executeCommand(command)
 		case "remove":
 			fountain.remove(argv._[1])
 			break;
+		case "help":
+			require('optimist').showHelp()
+			break;
+		case "version":
+			console.log("0.1.1".green)
+			break;
 	}
+}
+
+function commands()
+{
+	if(argv.v)
+		console.log("0.1.1".green)
+	if(argv.h)
+		require('optimist').showHelp()
+	if(argv.s)
+		fountain.save(argv.s)
+	if(argv.l)
+		fountain.load(argv.l)
+	if(argv.r)
+		fountain.remove(argv.r)
+}
+
+function hasKeys()
+{
+	for(key in keys)
+	{
+		if(argv[key] || argv._.join(',').indexOf(keys[key]) > -1)
+		{
+			return true;
+		}
+	}
+
+	return false;
 }

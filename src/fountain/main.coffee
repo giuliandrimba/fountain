@@ -3,6 +3,7 @@ path = require "path"
 fs = require "fs"
 wrench = require "wrench"
 util = require "util"
+colors = require "colors"
 
 
 class fountain.Main
@@ -13,15 +14,16 @@ class fountain.Main
 		@config_path = path.resolve "fountain.yml"
 
 	build:()=>
+		return console.log "Template file not found (fountain.yml)".red unless fs.existsSync @config_path
 		fs.readFile @config_path, "utf8", (err, data)=>
-
-			console.log "Error reading the config file" if err
 
 			try
 				@tree = yaml.load data
 				@_get_children @tree
+				console.log "Successfully builded template!".green
 			catch e
-				console.log e
+				console.log "Error reading the config file".red if err
+				# console.log e
 
 
 	save:(name)=>
@@ -30,10 +32,10 @@ class fountain.Main
 		new_tmpl_file = path.resolve tmpl_folder, "#{name}.yml"
 
 		if fs.existsSync new_tmpl_file
-			console.log "template already exists, choose another name please!"
+			console.log "Template already exists, choose another name please!".red
 		else
 			@_copyFileSync @config_path, new_tmpl_file
-			console.log "successfully saved #{name} template"
+			console.log "Successfully saved #{name} template!".green
 
 
 	load:(name)=>
@@ -44,9 +46,8 @@ class fountain.Main
 		if fs.existsSync new_tmpl_file
 			@config_path = new_tmpl_file
 			@build()
-			console.log "successfully builded template"
 		else
-			console.log "template not found"
+			console.log "Template not found!".red
 
 	remove:(name)=>
 		tmpl_folder = path.resolve __dirname, "..", "templates"
@@ -55,9 +56,9 @@ class fountain.Main
 
 		if fs.existsSync new_tmpl_file
 			fs.unlinkSync new_tmpl_file
-			console.log "successfully deleted #{name} template"
+			console.log "Successfully deleted #{name} template!".green
 		else
-			console.log "template not found"
+			console.log "Template not found!".red
 		
 	_get_children:(obj, parent)=>
 
@@ -86,7 +87,6 @@ class fountain.Main
 				@_get_children child, relative_path
 
 	_copyFileSync : (srcFile, destFile) ->
-		console.log srcFile
 		BUF_LENGTH = 64*1024
 		buff = new Buffer(BUF_LENGTH)
 		fdr = fs.openSync(srcFile, 'r')

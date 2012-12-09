@@ -3,7 +3,7 @@
   "author"         : "Giulian Drimba <giuliandrimba@gmail.com>",
   "name"           : "fountain",
   "description"    : "",
-  "version"        : "0.1.0",
+  "version"        : "0.1.1",
 
   "repository"     : {
     "type"           : "git",
@@ -23,10 +23,21 @@
   "engines"        : {
     "node"           : ">= 0.8"
   },
-  
+  "keywords": [
+    "scaffold",
+    "fountain",
+    "generator",
+    "base",
+    "tool"
+  ],
   "dependencies"   : {
     "js-yaml"      : "1.0.x",
     "wrench"       : "1.4.x",
-    "optimist"     : "0.3.x"
+    "optimist"     : "0.3.x",
+    "colors"       : "0.6.x"
+  },
+  "devDependencies": 
+  {
+    "coffee-toaster":"~0.6.x"
   }
 }
