@@ -7,8 +7,9 @@ var colors = require("colors")
 var helpMessage = "\nScaffolding tool using a YAML file as folder structure, or a template folder".green.bold;
 helpMessage += "\n\nUsage:".green;
 helpMessage += "\n  fountain save (-s) <path_to_file/path_to_folder> --name <name>".yellow+": Save the template passing the path to the YAML file, or a folder template";
-helpMessage += "\n  fountain load (-l) <name>".yellow+": Load the template by name, and build it;";
+helpMessage += "\n  fountain build (-b) <name>".yellow+": Build the template by name;";
 helpMessage += "\n  fountain remove (-r) <name>".yellow+": Remove the template by name;";
+helpMessage += "\n  fountain list (-l) <name>".yellow+": List all the templates;";
 helpMessage += "\n  fountain version (-v)".yellow+": Show version;";
 helpMessage += "\n  fountain help (-h)".yellow+": Show help;\n";
 
@@ -29,7 +30,7 @@ var argv = require('optimist')
 var lib = path.join(path.dirname(fs.realpathSync(__filename)), '../lib');
 var Fountain = require(lib + '/fountain')
 var fountain = new Fountain;
-var keys = {v:"version",h:"help",s:"save",l:"load",r:"remove"};
+var keys = {v:"version",h:"help",s:"save",b:"build",r:"remove",l:"list"};
 
 parseArgvs();
 
@@ -53,11 +54,14 @@ function verboseCommands(command)
 		case "save":
 			fountain.save(argv._[1], argv.name)
 			break;
-		case "load":
-			fountain.load(argv._[1])
+		case "build":
+			fountain.build(argv._[1])
 			break;
 		case "remove":
 			fountain.remove(argv._[1])
+			break;
+		case "list":
+			fountain.list()
 			break;
 		case "help":
 			require('optimist').showHelp()
@@ -79,6 +83,8 @@ function commands()
 	if(argv.b)
 		fountain.build(argv.b)
 	if(argv.l)
+		fountain.list()
+	if(argv.b)
 		fountain.load(argv.l)
 	if(argv.r)
 		fountain.remove(argv.r)

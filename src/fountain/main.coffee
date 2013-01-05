@@ -14,19 +14,6 @@ class fountain.Main
 	constructor:()->
 
 
-	build:(path_to_file, name)=>
-		return console.log "Please, specify a template".red unless path_to_file
-		path_to_file = path.resolve path_to_file
-		return console.log "Template file not found (#{path_to_file})".red unless fs.existsSync path_to_file
-		fs.readFile path_to_file, "utf8", (err, data)=>
-
-			try
-				@tree = yaml.load data
-				fountain.YmlParser.parse @tree, name
-				console.log "Successfully builded template!".green
-			catch e
-				console.log "Error reading the config file".red if err
-
 	save:(path_to_file, name)=>
 		return console.log "Please, specify a template".red unless path_to_file
 		path_to_file = path.resolve path_to_file
@@ -37,14 +24,14 @@ class fountain.Main
 		else
 			@_save_folder path_to_file, name
 
-	load:(name)=>
+	build:(name)=>
 
 		if @_template_exists name
 
 			new_tmpl_file = path.resolve @_get_tmpl_folder(name), "#{name}.yml"
 
 			if fs.existsSync new_tmpl_file
-				@build new_tmpl_file, name
+				@_build new_tmpl_file, name
 			else 
 				fsu.cp_r @_get_tmpl_folder(name), "#{name}"
 				console.log "Successfully builded template!".green
@@ -58,7 +45,28 @@ class fountain.Main
 		else
 			console.log "Template not found!".red
 
+	list:=>
+		tmpl_folder = path.resolve __dirname, "..", "templates"
+		if fs.existsSync tmpl_folder
+			templates = fsu.ls tmpl_folder
+			console.log name.split("/").pop().green for name in templates
+		else
+			console.log "There are no template saved!"
+
 	########## private methods
+
+	_build:(path_to_file, name)=>
+		return console.log "Please, specify a template".red unless path_to_file
+		path_to_file = path.resolve path_to_file
+		return console.log "Template file not found (#{path_to_file})".red unless fs.existsSync path_to_file
+		fs.readFile path_to_file, "utf8", (err, data)=>
+
+			try
+				@tree = yaml.load data
+				fountain.YmlParser.parse @tree, name
+				console.log "Successfully builded template!".green
+			catch e
+				console.log "Error reading the config file".red if err
 
 	_save_folder:(path_to_folder, name)=>
 		return console.log "Please, specify a template".red unless path_to_folder
