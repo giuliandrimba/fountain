@@ -25,4 +25,4 @@ app
 ````
 
 ### Example using this template:
-<pre>fountain load test</pre>
+<pre>fountain build test</pre>
