@@ -23,28 +23,33 @@ class fountain.Main
 				console.log "Successfully builded template!".green
 			catch e
 				console.log "Error reading the config file".red if err
-				# console.log e
 
 
 	save:(name)=>
 		@_save_config name
 
-	_save_config:(name)=>
+	_get_tmpl_folder:(name)=>
 		tmpl_folder = path.resolve __dirname, "..", "templates"
 		fsu.mkdir_p tmpl_folder unless fs.existsSync tmpl_folder
-		new_tmpl_file = path.resolve tmpl_folder, "#{name}.yml"
+
+		new_tmpl_folder = path.resolve tmpl_folder, name
+		fsu.mkdir_p new_tmpl_folder unless fs.existsSync new_tmpl_folder
+
+		new_tmpl_folder
+
+	_save_config:(name)=>
+
+		new_tmpl_file = path.resolve @_get_tmpl_folder(name), "#{name}.yml"
 
 		if fs.existsSync new_tmpl_file
 			console.log "Template already exists, choose another name please!".red
 		else
-			@_copyFileSync @config_path, new_tmpl_file
+			return console.log "Template file not found (fountain.yml)".red unless fs.existsSync @config_path
+			fsu.cp_r @config_path, new_tmpl_file
 			console.log "Successfully saved #{name} template!".green
 
-
 	load:(name)=>
-		tmpl_folder = path.resolve __dirname, "..", "templates"
-		fsu.mkdir_p tmpl_folder unless fs.existsSync tmpl_folder
-		new_tmpl_file = path.resolve tmpl_folder, "#{name}.yml"
+		new_tmpl_file = path.resolve @_get_tmpl_folder(name), "#{name}.yml"
 
 		if fs.existsSync new_tmpl_file
 			@config_path = new_tmpl_file
@@ -53,12 +58,8 @@ class fountain.Main
 			console.log "Template not found!".red
 
 	remove:(name)=>
-		tmpl_folder = path.resolve __dirname, "..", "templates"
-		fsu.mkdir_p tmpl_folder unless fs.existsSync tmpl_folder
-		new_tmpl_file = path.resolve tmpl_folder, "#{name}.yml"
-
-		if fs.existsSync new_tmpl_file
-			fs.unlinkSync new_tmpl_file
+		if fs.existsSync @_get_tmpl_folder(name)
+			fsu.rm_rf @_get_tmpl_folder(name)
 			console.log "Successfully deleted #{name} template!".green
 		else
 			console.log "Template not found!".red
@@ -88,19 +89,5 @@ class fountain.Main
 						fs.writeFileSync "#{relative_path}/#{file}", ""
 			else
 				@_get_children child, relative_path
-
-	_copyFileSync : (srcFile, destFile) ->
-		BUF_LENGTH = 64*1024
-		buff = new Buffer(BUF_LENGTH)
-		fdr = fs.openSync(srcFile, 'r')
-		fdw = fs.openSync(destFile, 'w')
-		bytesRead = 1
-		pos = 0
-		while bytesRead > 0
-			bytesRead = fs.readSync(fdr, buff, 0, BUF_LENGTH, pos)
-			fs.writeSync(fdw,buff,0,bytesRead)
-			pos += bytesRead
-		fs.closeSync(fdr)
-		fs.closeSync(fdw)
 
 module.exports = fountain.Main
