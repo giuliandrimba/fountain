@@ -1,9 +1,9 @@
 yaml = require "js-yaml"
 path = require "path"
 fs = require "fs"
-wrench = require "wrench"
 util = require "util"
 colors = require "colors"
+fsu = require "fs-util"
 
 
 class fountain.Main
@@ -27,8 +27,11 @@ class fountain.Main
 
 
 	save:(name)=>
+		@_save_config name
+
+	_save_config:(name)=>
 		tmpl_folder = path.resolve __dirname, "..", "templates"
-		wrench.mkdirSyncRecursive tmpl_folder unless fs.existsSync tmpl_folder
+		fsu.mkdir_p tmpl_folder unless fs.existsSync tmpl_folder
 		new_tmpl_file = path.resolve tmpl_folder, "#{name}.yml"
 
 		if fs.existsSync new_tmpl_file
@@ -40,7 +43,7 @@ class fountain.Main
 
 	load:(name)=>
 		tmpl_folder = path.resolve __dirname, "..", "templates"
-		wrench.mkdirSyncRecursive tmpl_folder unless fs.existsSync tmpl_folder
+		fsu.mkdir_p tmpl_folder unless fs.existsSync tmpl_folder
 		new_tmpl_file = path.resolve tmpl_folder, "#{name}.yml"
 
 		if fs.existsSync new_tmpl_file
@@ -51,7 +54,7 @@ class fountain.Main
 
 	remove:(name)=>
 		tmpl_folder = path.resolve __dirname, "..", "templates"
-		wrench.mkdirSyncRecursive tmpl_folder unless fs.existsSync tmpl_folder
+		fsu.mkdir_p tmpl_folder unless fs.existsSync tmpl_folder
 		new_tmpl_file = path.resolve tmpl_folder, "#{name}.yml"
 
 		if fs.existsSync new_tmpl_file
@@ -63,7 +66,7 @@ class fountain.Main
 	_get_children:(obj, parent)=>
 
 		if parent
-			wrench.mkdirSyncRecursive parent unless fs.existsSync parent
+			fsu.mkdir_p parent unless fs.existsSync parent
 
 		for key of obj
 			child = obj[key]
@@ -72,7 +75,7 @@ class fountain.Main
 			else
 				relative_path = path.resolve parent, key
 
-			wrench.mkdirSyncRecursive relative_path
+			fsu.mkdir_p relative_path
 
 			if child?.length
 				for file in child

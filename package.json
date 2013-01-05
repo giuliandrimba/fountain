@@ -32,9 +32,9 @@
   ],
   "dependencies"   : {
     "js-yaml"      : "1.0.x",
-    "wrench"       : "1.4.x",
     "optimist"     : "0.3.x",
-    "colors"       : "0.6.x"
+    "colors"       : "0.6.x",
+    "fs-util"      : "0.3.x"
   },
   "devDependencies": 
   {
