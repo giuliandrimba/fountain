@@ -20,7 +20,7 @@ helpMessage += "\n      - app.js".cyan;
 helpMessage += "\n    - css:".cyan;
 helpMessage += "\n      - app.css".cyan;
 helpMessage += "\n\nExample using this template:".green;
-helpMessage += "\n  fountain load test".cyan;
+helpMessage += "\n  fountain build test".cyan;
 helpMessage += "\n\nMore doc at: https://github.com/giuliandrimba/fountain".green;
 
 var argv = require('optimist')
