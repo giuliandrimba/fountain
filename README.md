@@ -1,4 +1,4 @@
-# Fountain V0.2.1
+# Fountain v0.3.0
 
 ## Scaffolding tool using a YAML file as folder structure, or a template folder
 
@@ -8,8 +8,9 @@ You can create the structure of your template using a YAML file and build it bas
 
 ### Usage:
 + *fountain save (-s) <path_to_file/path_to_folder> --name <name>:* Save the template passing the path to the YAML file, or a folder template
-+ *fountain load (-l) <name>:* Load the template by name, and build it;
++ *fountain build (-b) <name>:* Build the template by name;
 + *fountain remove (-r) <name>:* Remove the template by name;
++ *fountain list (-l) <name>:* List all the templates;
 + *fountain version (-v):* Show version;
 + *fountain help (-h):* Show help;
 
