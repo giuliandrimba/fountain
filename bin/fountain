@@ -52,10 +52,10 @@ function verboseCommands(command)
 	switch(command)
 	{
 		case "build":
-			fountain.build(argv._[1])
+			fountain.build(argv._[1], argv.name)
 			break;
 		case "save":
-			fountain.save(argv._[1])
+			fountain.save(argv._[1], argv.name)
 			break;
 		case "load":
 			fountain.load(argv._[1])

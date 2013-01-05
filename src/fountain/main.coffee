@@ -11,22 +11,31 @@ class fountain.Main
 	tree:{}
 
 	constructor:()->
-		@config_path = path.resolve "fountain.yml"
 
-	build:()=>
-		return console.log "Template file not found (fountain.yml)".red unless fs.existsSync @config_path
-		fs.readFile @config_path, "utf8", (err, data)=>
+
+	build:(path_to_file)=>
+		return console.log "Please, specify a template".red unless path_to_file
+		path_to_file = path.resolve path_to_file
+		return console.log "Template file not found (#{path_to_file})".red unless fs.existsSync path_to_file
+		fs.readFile path_to_file, "utf8", (err, data)=>
 
 			try
 				@tree = yaml.load data
-				@_get_children @tree
+				@_parse_yml @tree
 				console.log "Successfully builded template!".green
 			catch e
 				console.log "Error reading the config file".red if err
 
 
-	save:(name)=>
-		@_save_config name
+	save:(path_to_file, name)=>
+		return console.log "Please, specify a template".red unless path_to_file
+		return console.log "Template not found (#{path_to_file})".red unless fs.existsSync path_to_file
+		path_to_file = path.resolve path_to_file
+
+		unless fs.statSync(path_to_file).isDirectory()
+			@_save_config path_to_file, name
+		else
+			@_save_folder path_to_file, name
 
 	_get_tmpl_folder:(name)=>
 		tmpl_folder = path.resolve __dirname, "..", "templates"
@@ -37,34 +46,55 @@ class fountain.Main
 
 		new_tmpl_folder
 
-	_save_config:(name)=>
+	_template_exists:(name)=>
+		tmpl_folder = path.resolve __dirname, "..", "templates"
+		fsu.mkdir_p tmpl_folder unless fs.existsSync tmpl_folder
+		new_tmpl_folder = path.resolve tmpl_folder, name
+		fs.existsSync new_tmpl_folder
+
+	_save_folder:(path_to_folder, name)=>
+		return console.log "Please, specify a template".red unless path_to_folder
+
+		if @_template_exists(name)
+			console.log "Template already exists, choose another name please!".red
+		else
+			fsu.cp_r path_to_folder, @_get_tmpl_folder(name)
+			console.log "Successfully saved #{name} template!".green
+			
+
+	_save_config:(path_to_file, name)=>
 
 		new_tmpl_file = path.resolve @_get_tmpl_folder(name), "#{name}.yml"
 
 		if fs.existsSync new_tmpl_file
 			console.log "Template already exists, choose another name please!".red
 		else
-			return console.log "Template file not found (fountain.yml)".red unless fs.existsSync @config_path
-			fsu.cp_r @config_path, new_tmpl_file
+			return console.log "Template file not found (#{path_to_file})".red unless fs.existsSync path_to_file
+			fsu.cp_r path_to_file, new_tmpl_file
 			console.log "Successfully saved #{name} template!".green
 
 	load:(name)=>
-		new_tmpl_file = path.resolve @_get_tmpl_folder(name), "#{name}.yml"
 
-		if fs.existsSync new_tmpl_file
-			@config_path = new_tmpl_file
-			@build()
+		if @_template_exists name
+
+			new_tmpl_file = path.resolve @_get_tmpl_folder(name), "#{name}.yml"
+
+			if fs.existsSync new_tmpl_file
+				@build(new_tmpl_file)
+			else 
+				fsu.cp_r @_get_tmpl_folder(name), "#{name}"
+				console.log "Successfully builded template!".green
 		else
 			console.log "Template not found!".red
 
 	remove:(name)=>
-		if fs.existsSync @_get_tmpl_folder(name)
+		if @_template_exists name
 			fsu.rm_rf @_get_tmpl_folder(name)
 			console.log "Successfully deleted #{name} template!".green
 		else
 			console.log "Template not found!".red
 		
-	_get_children:(obj, parent)=>
+	_parse_yml:(obj, parent)=>
 
 		if parent
 			fsu.mkdir_p parent unless fs.existsSync parent
@@ -84,10 +114,10 @@ class fountain.Main
 					type = typeof file
 
 					if type is "object"
-						@_get_children file, relative_path
+						@_parse_yml file, relative_path
 					else
 						fs.writeFileSync "#{relative_path}/#{file}", ""
 			else
-				@_get_children child, relative_path
+				@_parse_yml child, relative_path
 
 module.exports = fountain.Main
