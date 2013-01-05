@@ -4,16 +4,15 @@ var path = require("path");
 var fs = require("fs");
 var colors = require("colors")
 
-var helpMessage = "\nScaffold system based on a config file".green.bold;
+var helpMessage = "\nScaffolding tool using a YAML file as folder structure, or a template folder".green.bold;
 helpMessage += "\n\nUsage:".green;
-helpMessage += "\n  fountain build (-b)".yellow+": Scaffold a project using the template file (fountain.yml);";
-helpMessage += "\n  fountain save (-s) [name]".yellow+": Save the template file for further use;";
-helpMessage += "\n  fountain load (-l) [name]".yellow+": Load the template file by name, and build it;";
-helpMessage += "\n  fountain remove (-r) [name]".yellow+": Remove the template file by name;";
+helpMessage += "\n  fountain save (-s) <path_to_file/path_to_folder> --name <name>".yellow+": Save the template passing the path to the YAML file, or a folder template";
+helpMessage += "\n  fountain load (-l) <name>".yellow+": Load the template by name, and build it;";
+helpMessage += "\n  fountain remove (-r) <name>".yellow+": Remove the template by name;";
 helpMessage += "\n  fountain version (-v)".yellow+": Show version;";
-helpMessage += "\n  fountain help (-h)".yellow+": Show help;";
+helpMessage += "\n  fountain help (-h)".yellow+": Show help;\n";
 
-helpMessage += "\n\nTemplate file example:".green;
+helpMessage += "\n\YAML file example:".green;
 helpMessage += "\n  app:".cyan;
 helpMessage += "\n    - js:".cyan;
 helpMessage += "\n      - app.js".cyan;
@@ -30,7 +29,7 @@ var argv = require('optimist')
 var lib = path.join(path.dirname(fs.realpathSync(__filename)), '../lib');
 var Fountain = require(lib + '/fountain')
 var fountain = new Fountain;
-var keys = {b:"build",v:"version",h:"help",s:"save",l:"load",r:"remove"};
+var keys = {v:"version",h:"help",s:"save",l:"load",r:"remove"};
 
 parseArgvs();
 
@@ -51,9 +50,6 @@ function verboseCommands(command)
 {
 	switch(command)
 	{
-		case "build":
-			fountain.build(argv._[1], argv.name)
-			break;
 		case "save":
 			fountain.save(argv._[1], argv.name)
 			break;
@@ -67,7 +63,7 @@ function verboseCommands(command)
 			require('optimist').showHelp()
 			break;
 		case "version":
-			console.log("0.1.1".green)
+			console.log("0.2.0".green)
 			break;
 	}
 }
@@ -79,7 +75,9 @@ function commands()
 	if(argv.h)
 		require('optimist').showHelp()
 	if(argv.s)
-		fountain.save(argv.s)
+		fountain.save(argv.s, argv.name)
+	if(argv.b)
+		fountain.build(argv.b)
 	if(argv.l)
 		fountain.load(argv.l)
 	if(argv.r)

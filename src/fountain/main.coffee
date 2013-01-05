@@ -14,7 +14,7 @@ class fountain.Main
 	constructor:()->
 
 
-	build:(path_to_file)=>
+	build:(path_to_file, name)=>
 		return console.log "Please, specify a template".red unless path_to_file
 		path_to_file = path.resolve path_to_file
 		return console.log "Template file not found (#{path_to_file})".red unless fs.existsSync path_to_file
@@ -22,7 +22,7 @@ class fountain.Main
 
 			try
 				@tree = yaml.load data
-				fountain.YmlParser.parse @tree
+				fountain.YmlParser.parse @tree, name
 				console.log "Successfully builded template!".green
 			catch e
 				console.log "Error reading the config file".red if err
@@ -44,7 +44,7 @@ class fountain.Main
 			new_tmpl_file = path.resolve @_get_tmpl_folder(name), "#{name}.yml"
 
 			if fs.existsSync new_tmpl_file
-				@build(new_tmpl_file)
+				@build new_tmpl_file, name
 			else 
 				fsu.cp_r @_get_tmpl_folder(name), "#{name}"
 				console.log "Successfully builded template!".green
@@ -62,6 +62,7 @@ class fountain.Main
 
 	_save_folder:(path_to_folder, name)=>
 		return console.log "Please, specify a template".red unless path_to_folder
+		return console.log "Please, specify a name: --name <template_name>".red unless name
 
 		if @_template_exists(name)
 			console.log "Template already exists, choose another name please!".red
@@ -71,7 +72,8 @@ class fountain.Main
 			
 
 	_save_config:(path_to_file, name)=>
-
+		return console.log "Please, specify a template".red unless path_to_file
+		return console.log "Please, specify a name: --name <template_name>".red unless name
 		new_tmpl_file = path.resolve @_get_tmpl_folder(name), "#{name}.yml"
 
 		if fs.existsSync new_tmpl_file
