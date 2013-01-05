@@ -2,6 +2,10 @@
 
 ## Scaffolding tool using a YAML file as folder structure, or a template folder
 
+## Description:
+Use __fountain__ to create custom scaffolding builds. 
+You can create the structure of your template using a YAML file and build it based on it, or you can create your template folder and save it for further use.
+
 ### Usage:
 + *fountain save (-s) <path_to_file/path_to_folder> --name <name>:* Save the template passing the path to the YAML file, or a folder template
 + *fountain load (-l) <name>:* Load the template by name, and build it;
