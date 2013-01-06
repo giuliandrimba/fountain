@@ -88,7 +88,7 @@ class fountain.Main
 			console.log "Template already exists, choose another name please!".red
 		else
 			return console.log "Template file not found (#{path_to_file})".red unless fs.existsSync path_to_file
-			fsu.cp_r path_to_file, new_tmpl_file
+			fsu.cp path_to_file, new_tmpl_file
 			console.log "Successfully saved #{name} template!".green
 
 	_get_tmpl_folder:(name)=>
