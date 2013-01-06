@@ -1,4 +1,4 @@
-# Fountain v0.3.0
+# Fountain v0.3.1
 
 ## Scaffolding tool using a YAML file as folder structure, or a template folder
 

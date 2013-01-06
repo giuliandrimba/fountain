@@ -67,7 +67,7 @@ function verboseCommands(command)
 			require('optimist').showHelp()
 			break;
 		case "version":
-			console.log("0.3.0".green)
+			console.log("0.3.1".green)
 			break;
 	}
 }
