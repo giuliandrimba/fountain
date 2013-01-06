@@ -4,7 +4,7 @@
 
 ## Description:
 Use __fountain__ to create custom scaffolding builds. 
-You can create the structure of your template using a YAML file and build it based on it, or you can create your template folder and save it for further use.
+You can create the structure of your template using a YAML file, save it and build it (folder and files will be generated based on it), or you can create your template folder and save it for further use.
 
 ### Instalation:
 <pre>npm install -g fountain </pre>
