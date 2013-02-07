@@ -32,3 +32,4 @@ class fountain.YmlParser
 			else
 				@parse child, relative_path
 		
+exports.yaml_parser = new fountain.YmlParser

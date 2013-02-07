@@ -1,0 +1,5 @@
+app
+  - js:
+    - app.js
+  - css:
+    - app.css
