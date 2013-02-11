@@ -4,14 +4,15 @@ fs = require "fs"
 util = require "util"
 colors = require "colors"
 fsu = require "fs-util"
-yaml_parser = require "yaml_parser"
+yaml_parser = require path.resolve __dirname , "yml_parser"
 
-class fountain.Main
+
+class Main
 
 	tree:{}
 
-	constructor:()->
-
+	constructor:()->	
+		
 
 	save:(path_to_file, name)=>
 		return console.log "Please, specify a template".red unless path_to_file
@@ -62,7 +63,7 @@ class fountain.Main
 
 			try
 				@tree = yaml.load data
-				fountain.yaml_parser.parse @tree, name
+				yaml_parser.parse @tree, name
 				console.log "Successfully builded template!".green
 			catch e
 				console.log "Error reading the config file".red if err
@@ -104,4 +105,4 @@ class fountain.Main
 		new_tmpl_folder = path.resolve tmpl_folder, name
 		fs.existsSync new_tmpl_folder
 
-module.exports = new fountain.Main
+module.exports = new Main

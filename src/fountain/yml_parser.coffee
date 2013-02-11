@@ -3,7 +3,7 @@ fs = require "fs"
 util = require "util"
 fsu = require "fs-util"
 
-class fountain.YmlParser
+class YmlParser
 
 	constructor:()->
 
@@ -32,4 +32,4 @@ class fountain.YmlParser
 			else
 				@parse child, relative_path
 		
-exports.yaml_parser = new fountain.YmlParser
+module.exports = new YmlParser

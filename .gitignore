@@ -2,3 +2,4 @@
 node_modules/**/*
 templates/*
 !templates/test
+node_modules

@@ -1,7 +1,4 @@
-TOASTER=node_modules/coffee-toaster/bin/toaster
+MOCHA=node_modules/mocha/bin/mocha
 
-watch:
-	$(TOASTER) . -w
-
-build:
-	$(TOASTER) . -c
+spec:
+	$(MOCHA) --compilers coffee:coffee-script

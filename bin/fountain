@@ -1,10 +1,10 @@
-#!/usr/bin/env node
+#!/usr/bin/env _coffee
 
-var path = require("path");
-var fs = require("fs");
-var colors = require("colors")
+path = require "path"
+fs = require "fs"
+colors = require "colors"
 
-var helpMessage = "\nScaffolding tool using a YAML file as folder structure, or a template folder".green.bold;
+helpMessage = "\nScaffolding tool using a YAML file as folder structure, or a template folder".green.bold;
 helpMessage += "\n\nUsage:".green;
 helpMessage += "\n  fountain save (-s) <path_to_file/path_to_folder> --name <name>".yellow+": Save the template passing the path to the YAML file, or a folder template";
 helpMessage += "\n  fountain build (-b) <name>".yellow+": Build the template by name;";
@@ -13,7 +13,7 @@ helpMessage += "\n  fountain list (-l) <name>".yellow+": List all the templates;
 helpMessage += "\n  fountain version (-v)".yellow+": Show version;";
 helpMessage += "\n  fountain help (-h)".yellow+": Show help;\n";
 
-helpMessage += "\n\YAML file example:".green;
+helpMessage += "\n\ YAML file example:".green;
 helpMessage += "\n  app:".cyan;
 helpMessage += "\n    - js:".cyan;
 helpMessage += "\n      - app.js".cyan;
@@ -23,82 +23,49 @@ helpMessage += "\n\nExample using this template:".green;
 helpMessage += "\n  fountain build test".cyan;
 helpMessage += "\n\nMore doc at: https://github.com/giuliandrimba/fountain".green;
 
-var argv = require('optimist')
+argv = require('optimist')
 .usage(helpMessage)
 .argv;
 
-var lib = path.join(path.dirname(fs.realpathSync(__filename)), '../lib');
-var Fountain = require(lib + '/fountain')
-var fountain = new Fountain;
-var keys = {v:"version",h:"help",s:"save",b:"build",r:"remove",l:"list"};
+lib = path.join path.dirname(fs.realpathSync(__filename)), '../src/fountain'
+fountain = require lib + '/main'
+keys = {v:"version",h:"help",s:"save",b:"build",r:"remove",l:"list"}
 
-parseArgvs();
-
-function parseArgvs()
-{
-	if(!hasKeys())
-	{
+parseArgvs = ()->
+	unless hasKeys()
 		require('optimist').showHelp()
-	}
 	else
-	{
-		verboseCommands(argv._[0]);
-		commands()		
-	}
-}
+		verboseCommands argv._[0]
+		commands()
 
-function verboseCommands(command)
-{
-	switch(command)
-	{
-		case "save":
-			fountain.save(argv._[1], argv.name)
-			break;
-		case "build":
-			fountain.build(argv._[1])
-			break;
-		case "remove":
-			fountain.remove(argv._[1])
-			break;
-		case "list":
-			fountain.list()
-			break;
-		case "help":
-			require('optimist').showHelp()
-			break;
-		case "version":
-			console.log("0.3.1".green)
-			break;
-	}
-}
+verboseCommands = (command)->
+	switch command
+		when "save" then fountain.save argv._[1], argv.name
+		when "build" then fountain.build argv._[1]
+		when "remove" then fountain.remove argv._[1]
+		when "list" then fountain.list()
+		when "help" then require('optimist').showHelp()
+		when "version" then console.log "0.3.1".green
 
-function commands()
-{
-	if(argv.v)
+commands = ()->
+	if argv.v
 		console.log("0.1.1".green)
-	if(argv.h)
+	if argv.h
 		require('optimist').showHelp()
-	if(argv.s)
-		fountain.save(argv.s, argv.name)
-	if(argv.b)
-		fountain.build(argv.b)
-	if(argv.l)
+	if argv.s
+		fountain.save argv.s, argv.name
+	if argv.b
+		fountain.build argv.b
+	if argv.l
 		fountain.list()
-	if(argv.b)
-		fountain.load(argv.l)
-	if(argv.r)
-		fountain.remove(argv.r)
-}
+	if argv.b
+		fountain.load argv.l
+	if argv.r
+		fountain.remove argv.r
 
-function hasKeys()
-{
-	for(key in keys)
-	{
-		if(argv[key] || argv._.join(',').indexOf(keys[key]) > -1)
-		{
-			return true;
-		}
-	}
+hasKeys = ()->
+	for key of keys
+		return true if (argv[key] or argv._.join(',').indexOf(keys[key]) > -1) 
+	return false
 
-	return false;
-}
+parseArgvs()
