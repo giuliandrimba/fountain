@@ -7,11 +7,11 @@ class YmlParser
 
 	constructor:()->
 
-	@parse:(obj, parent)=>
+	parse:(obj, parent)=>
 		if parent
 			fsu.mkdir_p parent unless fs.existsSync parent
-		for key of obj
 
+		for key of obj
 			child = obj[key]
 			unless parent
 				relative_path = path.resolve key

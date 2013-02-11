@@ -1,0 +1,11 @@
+app:
+  js:
+    - app.js
+    - vendors:
+      - vendors.js
+  css:
+    - app.css
+    - vendors:
+      - vendors.css
+      - vendor_name:
+        - main.css

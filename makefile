@@ -1,4 +1,4 @@
 MOCHA=node_modules/mocha/bin/mocha
 
 spec:
-	$(MOCHA) --compilers coffee:coffee-script
+	$(MOCHA) --compilers coffee:coffee-script --reporter spec

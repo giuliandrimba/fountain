@@ -92,7 +92,7 @@ class Main
 			console.log "Successfully saved #{name} template!".green
 
 	_get_tmpl_folder:(name)=>
-		tmpl_folder = path.resolve __dirname, "..", "templates"
+		tmpl_folder = path.resolve __dirname, "..","..", "templates"
 		fsu.mkdir_p tmpl_folder unless fs.existsSync tmpl_folder
 
 		new_tmpl_folder = path.resolve tmpl_folder, name
