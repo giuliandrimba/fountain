@@ -1,5 +1,7 @@
 # Fountain v0.3.2
 
+[![Build Status](https://travis-ci.org/giuliandrimba/fountain.png?branch=master)](https://travis-ci.org/giuliandrimba/fountain)
+
 ### Scaffolding tool using a YAML file as folder structure, or a template folder
 
 #### Description:
