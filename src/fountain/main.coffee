@@ -51,7 +51,7 @@ class Main
 			templates = fsu.ls tmpl_folder
 			console.log name.split("/").pop().green for name in templates
 		else
-			console.log "There are no template saved!"
+			console.log "There are no templates saved!"
 
 	########## private methods
 

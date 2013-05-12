@@ -1,4 +1,4 @@
-#!/usr/bin/env _coffee
+#!/usr/bin/env fountain_coffee
 
 path = require "path"
 fs = require "fs"
