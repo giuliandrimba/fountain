@@ -9,6 +9,15 @@
     "url"            : "http://github.com/giuliandrimba/fountain"
   },
 
+  "directories": {
+    "lib": "./lib",
+    "test": "./test"
+  },
+
+  "scripts": {
+    "test": "make spec"
+  },
+
   "main"           : "./src/fountain/main",
 
   "bin"            : {
