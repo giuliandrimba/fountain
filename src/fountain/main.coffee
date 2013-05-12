@@ -12,7 +12,7 @@ class Main
 	tree:{}
 
 	constructor:()->	
-		
+		@tmpl_folder = path.resolve __dirname, "..", "..", "templates"
 
 	save:(path_to_file, name)=>
 		return console.log "Please, specify a template".red unless path_to_file
@@ -46,12 +46,13 @@ class Main
 			console.log "Template not found!".red
 
 	list:=>
-		tmpl_folder = path.resolve __dirname, "..", "templates"
-		if fs.existsSync tmpl_folder
-			templates = fsu.ls tmpl_folder
+		templates = fsu.ls @tmpl_folder
+		if fs.existsSync @tmpl_folder
 			console.log name.split("/").pop().green for name in templates
 		else
 			console.log "There are no templates saved!"
+		
+		templates
 
 	########## private methods
 
@@ -92,17 +93,17 @@ class Main
 			console.log "Successfully saved #{name} template!".green
 
 	_get_tmpl_folder:(name)=>
-		tmpl_folder = path.resolve __dirname, "..","..", "templates"
-		fsu.mkdir_p tmpl_folder unless fs.existsSync tmpl_folder
 
-		new_tmpl_folder = path.resolve tmpl_folder, name
+		fsu.mkdir_p @tmpl_folder unless fs.existsSync @tmpl_folder
+
+		new_tmpl_folder = path.resolve @tmpl_folder, name
 		fsu.mkdir_p new_tmpl_folder unless fs.existsSync new_tmpl_folder
 
 		new_tmpl_folder
 
 	_template_exists:(name)=>
-		tmpl_folder = path.resolve __dirname, "..", "templates"
-		new_tmpl_folder = path.resolve tmpl_folder, name
+
+		new_tmpl_folder = path.resolve @tmpl_folder, name
 		fs.existsSync new_tmpl_folder
 
 module.exports = new Main
