@@ -1,15 +1,15 @@
 # Fountain v0.3.2
 
-## Scaffolding tool using a YAML file as folder structure, or a template folder
+### Scaffolding tool using a YAML file as folder structure, or a template folder
 
-## Description:
+#### Description:
 Use __fountain__ to create custom scaffolding builds. 
 You can create the structure of your template using a YAML file, save it and build it (folder and files will be generated based on it), or you can create your template folder and save it for further use.
 
-### Instalation:
+#### Instalation:
 <pre>npm install -g fountain </pre>
 
-### Usage:
+#### Usage:
 + *fountain save (-s) <path_to_file/path_to_folder> --name <name>:* Save the template passing the path to the YAML file, or a folder template
 + *fountain build (-b) <name>:* Build the template by name;
 + *fountain remove (-r) <name>:* Remove the template by name;
@@ -17,7 +17,7 @@ You can create the structure of your template using a YAML file, save it and bui
 + *fountain version (-v):* Show version;
 + *fountain help (-h):* Show help;
 
-### YAML file example:
+#### YAML file example:
 
 ````bash
 app
@@ -27,5 +27,5 @@ app
     - app.css
 ````
 
-### Example using this template:
+##### Example using this template:
 <pre>fountain build test</pre>
