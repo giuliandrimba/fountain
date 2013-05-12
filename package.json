@@ -2,7 +2,7 @@
   "author"         : "Giulian Drimba <giuliandrimba@gmail.com>",
   "name"           : "fountain",
   "description"    : "",
-  "version"        : "0.3.1",
+  "version"        : "0.3.2",
 
   "repository"     : {
     "type"           : "git",
