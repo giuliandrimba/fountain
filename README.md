@@ -1,4 +1,4 @@
-# Fountain v0.3.5
+# Fountain v0.3.4
 
 [![Build Status](https://travis-ci.org/giuliandrimba/fountain.png?branch=master)](https://travis-ci.org/giuliandrimba/fountain)
 
