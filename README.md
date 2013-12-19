@@ -31,3 +31,7 @@ app
 
 ##### Example using this template:
 <pre>fountain build test</pre>
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/giuliandrimba/fountain/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
